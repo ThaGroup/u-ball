@@ -492,6 +492,7 @@ GameObject:
   m_Component:
   - component: {fileID: 797880069}
   - component: {fileID: 797880068}
+  - component: {fileID: 797880070}
   m_Layer: 0
   m_Name: BallCameraPivot
   m_TagString: Untagged
@@ -512,6 +513,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Target: {fileID: 1291822457}
+  LookAtTarget: 0
   FollowPositionX: 1
   FollowPositionY: 1
   FollowPositionZ: 1
@@ -531,14 +533,26 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 797880067}
-  m_LocalRotation: {x: 7.949608e-15, y: -0.24612351, z: -0.000000029340198, w: 0.96923846}
+  m_LocalRotation: {x: -0, y: -0.6641716, z: -0, w: 0.7475802}
   m_LocalPosition: {x: 30, y: 33, z: 24}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1844354431}
   m_Father: {fileID: 0}
   m_RootOrder: 23
-  m_LocalEulerAnglesHint: {x: 0, y: -28.496002, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -83.23801, z: 0}
+--- !u!114 &797880070
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 797880067}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64b46ff3a8f6d5f48a2288f1706be1e5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &848229782
 GameObject:
   m_ObjectHideFlags: 0
@@ -1153,7 +1167,7 @@ MonoBehaviour:
   LowJumpMultiplier: 3
   CountText: {fileID: 0}
   WinText: {fileID: 0}
-  Camera: {fileID: 848229782}
+  Camera: {fileID: 1844354430}
 --- !u!1001 &1340018310
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1696,6 +1710,7 @@ GameObject:
   - component: {fileID: 1844354431}
   - component: {fileID: 1844354433}
   - component: {fileID: 1844354432}
+  - component: {fileID: 1844354435}
   - component: {fileID: 1844354434}
   m_Layer: 0
   m_Name: BallCamera
@@ -1712,7 +1727,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1844354430}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 11.179941, y: 6.4164314, z: 12.980119}
+  m_LocalPosition: {x: 11.179941, y: 6.4164314, z: 12.980118}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 797880069}
@@ -1778,22 +1793,29 @@ MonoBehaviour:
   m_GameObject: {fileID: 1844354430}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 202ff46339351e44a98aaff0dfec44cb, type: 3}
+  m_Script: {fileID: 11500000, guid: 99c0553ec358c6d4ca96f9fd7f3de116, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Target: {fileID: 797880067}
-  FollowPositionX: 1
-  FollowPositionY: 1
-  FollowPositionZ: 1
-  FollowRotationX: 0
-  FollowRotationY: 1
-  FollowRotationZ: 0
+  Ball: {fileID: 1291822457}
   OffsetX: 0
-  OffsetY: 0.6
-  OffsetZ: -5
-  OrbitX: 0
-  OrbitY: 0
-  OrbitZ: 0
+  OffsetY: 1.5
+  OffsetZ: -7
+--- !u!114 &1844354435
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1844354430}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 73a69701a46d2784e8f6b2bf66ae0ee0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Ball: {fileID: 1291822457}
+  OffsetX: 0
+  OffsetY: 1.5
+  OffsetZ: -7
 --- !u!54 &1868893040
 Rigidbody:
   m_ObjectHideFlags: 0

@@ -3,6 +3,7 @@
 public class Follow : MonoBehaviour
 {
     public GameObject Target;
+    public bool LookAtTarget = true;
     public bool FollowPositionX = true;
     public bool FollowPositionY = true;
     public bool FollowPositionZ = true;
@@ -24,7 +25,11 @@ public class Follow : MonoBehaviour
     {
         transform.position = GetNewPosition();
         //transform.rotation = GetNewRotation();
-        //transform.LookAt(Target.transform);
+
+        if (LookAtTarget)
+        {
+            transform.LookAt(Target.transform);
+        }
     }
 
     private Vector3 GetNewPosition()
