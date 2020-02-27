@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -14,13 +15,16 @@ public class PlayerController : MonoBehaviour
     public Text CountText;
     public Text WinText;
 
-    public GameObject Camera;
+    public Camera[] Cameras;
+    private int _currentCameraId = 0;
+    private Camera _camera;
     
     private Rigidbody _rb;
     private int _count = 0;
 
     void Start()
     {
+        _camera = Cameras[0];
         _rb = GetComponent<Rigidbody>();
         _count = 0;
         SetCountText();
@@ -30,7 +34,9 @@ public class PlayerController : MonoBehaviour
     // TODO: Shift to boost.
     // TODO: Billards where you play as the cue ball.
     void Update()
-    {        
+    {
+        HandleCameraChange();
+
         float moveHorizontal = Input.GetAxis("Horizontal");
         float moveVertical = Input.GetAxis("Vertical");
         Vector3 input = new Vector3(moveHorizontal, 0, moveVertical);
@@ -49,7 +55,7 @@ public class PlayerController : MonoBehaviour
             input += Vector3.up * Physics.gravity.y * (LowJumpMultiplier - 1) * Time.deltaTime;
         }
 
-        float facing = Camera.transform.eulerAngles.y;
+        float facing = _camera.transform.eulerAngles.y;
 
         //Vector3 myInputs = ... (however you get X and Y into here);
         //// we rotate them around Y, assuming your inputs are in X and Z in the myInputs vector
@@ -62,7 +68,24 @@ public class PlayerController : MonoBehaviour
             shotBoost = 150;
         }
 
-        _rb.AddForce(myTurnedInputs * Speed * shotBoost);       
+        _rb.AddForce(myTurnedInputs * Speed * shotBoost);
+    }
+
+    private void HandleCameraChange()
+    {
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            _currentCameraId++;
+
+            if (_currentCameraId >= Cameras.Length)
+            {
+                _currentCameraId = 0;
+            }
+
+            Cameras.ToList().ForEach(c => c.gameObject.SetActive(false));
+            _camera = Cameras[_currentCameraId];
+            _camera.gameObject.SetActive(true);
+        }
     }
 
     void OnTriggerEnter(Collider other)

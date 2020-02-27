@@ -493,6 +493,7 @@ GameObject:
   - component: {fileID: 797880069}
   - component: {fileID: 797880068}
   - component: {fileID: 797880070}
+  - component: {fileID: 797880071}
   m_Layer: 0
   m_Name: BallCameraPivot
   m_TagString: Untagged
@@ -551,6 +552,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 64b46ff3a8f6d5f48a2288f1706be1e5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  magnitude: 0.5
+--- !u!114 &797880071
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 797880067}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ccb6eb1fc6950314bbb57845f2f9e35e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &848229782
@@ -1710,7 +1724,6 @@ GameObject:
   - component: {fileID: 1844354431}
   - component: {fileID: 1844354433}
   - component: {fileID: 1844354432}
-  - component: {fileID: 1844354435}
   - component: {fileID: 1844354434}
   m_Layer: 0
   m_Name: BallCamera
@@ -1797,25 +1810,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Ball: {fileID: 1291822457}
-  OffsetX: 0
-  OffsetY: 1.5
-  OffsetZ: -7
---- !u!114 &1844354435
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1844354430}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 73a69701a46d2784e8f6b2bf66ae0ee0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Ball: {fileID: 1291822457}
-  OffsetX: 0
-  OffsetY: 1.5
-  OffsetZ: -7
+  Close: 1
+  Normal: 25
+  Far: 50
+  CameraDistance: Close
 --- !u!54 &1868893040
 Rigidbody:
   m_ObjectHideFlags: 0
