@@ -72,6 +72,12 @@ public class PlayerController : MonoBehaviour
 
     private static float GetShotBoost()
     {
+        /**
+         * When boosting, since the ball moves so fast
+         * If the current camera is POV, maybe have an effect
+         * Where the camera stays in place and the player watches the ball 
+         * rocket forwards
+         */
         var shotBoost = 1.0f;
 
         if (Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.RightShift))
