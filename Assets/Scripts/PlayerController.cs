@@ -14,9 +14,11 @@ public class PlayerController : MonoBehaviour
     public Text WinText;
 
     public Camera[] Cameras;
-    private int _currentCameraId = 0;
-    private Camera _currentCamera;
+
+    public float SlowDownMultiplier = 0.2f;
     
+    private Camera _currentCamera;
+    private int _currentCameraId = 0;
     private Rigidbody _rb;
     private int _count = 0;
 
@@ -92,27 +94,45 @@ public class PlayerController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.C))
         {
-            _currentCameraId++;
-
-            if (_currentCameraId >= Cameras.Length)
-            {
-                _currentCameraId = 0;
-            }
-
-            Cameras.ToList().ForEach(c => c.gameObject.SetActive(false));
-            _currentCamera = Cameras[_currentCameraId];
-            _currentCamera.gameObject.SetActive(true);
+            UpdateCurrentCameraId();
+            UpdateActiveCamera();
         }
     }
 
-    void OnTriggerEnter(Collider other)
+    private void UpdateActiveCamera()
     {
-        if (other.gameObject.CompareTag("Pick Up"))
+        Cameras.ToList().ForEach(c => c.gameObject.SetActive(false));
+        _currentCamera = Cameras[_currentCameraId];
+        _currentCamera.gameObject.SetActive(true);
+    }
+
+    private void UpdateCurrentCameraId()
+    {
+        _currentCameraId++;
+
+        if (_currentCameraId >= Cameras.Length)
         {
-            other.gameObject.SetActive(false);
-            _count++;
-            SetCountText();
+            _currentCameraId = 0;
         }
+    }
+
+    void OnCollisionEnter(Collision other)
+    {
+        if (other.gameObject.CompareTag("Ball"))
+        {
+            Debug.Log("Collided with ball, slowing down time");
+            Invoke(nameof(ResumeNormalTimeScale), 1.5f * SlowDownMultiplier);
+            Time.timeScale = SlowDownMultiplier;
+            _rb.velocity = new Vector3(_rb.velocity.x / 2, _rb.velocity.y, _rb.velocity.z / 2);
+            Debug.Log(Time.timeScale);
+        }
+    }
+
+    private void ResumeNormalTimeScale()
+    {
+        Debug.Log("Resuming normal game speed");
+        Time.timeScale = 1.0f;
+        Debug.Log(Time.timeScale);
     }
 
     private void SetCountText()
