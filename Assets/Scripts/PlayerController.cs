@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -17,14 +15,14 @@ public class PlayerController : MonoBehaviour
 
     public Camera[] Cameras;
     private int _currentCameraId = 0;
-    private Camera _camera;
+    private Camera _currentCamera;
     
     private Rigidbody _rb;
     private int _count = 0;
 
     void Start()
     {
-        _camera = Cameras[0];
+        _currentCamera = Cameras[0];
         _rb = GetComponent<Rigidbody>();
         _count = 0;
         SetCountText();
@@ -37,8 +35,22 @@ public class PlayerController : MonoBehaviour
     {
         HandleCameraChange();
 
-        float moveHorizontal = Input.GetAxis("Horizontal");
-        float moveVertical = Input.GetAxis("Vertical");
+        var moveHorizontal = Input.GetAxis("Horizontal");
+        var moveVertical = Input.GetAxis("Vertical");
+
+        var input = GetInput(moveHorizontal, moveVertical);
+
+        float facing = _currentCamera.transform.eulerAngles.y;
+
+        //Vector3 myInputs = ... (however you get X and Y into here);
+        //// we rotate them around Y, assuming your inputs are in X and Z in the myInputs vector
+        Vector3 myTurnedInputs = Quaternion.Euler(0, facing, 0) * input;
+
+        _rb.AddForce(myTurnedInputs * Speed * GetShotBoost());
+    }
+
+    private Vector3 GetInput(float moveHorizontal, float moveVertical)
+    {
         Vector3 input = new Vector3(moveHorizontal, 0, moveVertical);
 
         if (Input.GetKeyDown(KeyCode.Space) && _rb.velocity.y == 0)
@@ -55,12 +67,11 @@ public class PlayerController : MonoBehaviour
             input += Vector3.up * Physics.gravity.y * (LowJumpMultiplier - 1) * Time.deltaTime;
         }
 
-        float facing = _camera.transform.eulerAngles.y;
+        return input;
+    }
 
-        //Vector3 myInputs = ... (however you get X and Y into here);
-        //// we rotate them around Y, assuming your inputs are in X and Z in the myInputs vector
-        Vector3 myTurnedInputs = Quaternion.Euler(0, facing, 0) * input;
-
+    private static float GetShotBoost()
+    {
         var shotBoost = 1.0f;
 
         if (Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.RightShift))
@@ -68,7 +79,7 @@ public class PlayerController : MonoBehaviour
             shotBoost = 150;
         }
 
-        _rb.AddForce(myTurnedInputs * Speed * shotBoost);
+        return shotBoost;
     }
 
     private void HandleCameraChange()
@@ -83,8 +94,8 @@ public class PlayerController : MonoBehaviour
             }
 
             Cameras.ToList().ForEach(c => c.gameObject.SetActive(false));
-            _camera = Cameras[_currentCameraId];
-            _camera.gameObject.SetActive(true);
+            _currentCamera = Cameras[_currentCameraId];
+            _currentCamera.gameObject.SetActive(true);
         }
     }
 
