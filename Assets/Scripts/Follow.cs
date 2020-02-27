@@ -24,7 +24,6 @@ public class Follow : MonoBehaviour
     void Update()
     {
         transform.position = GetNewPosition();
-        //transform.rotation = GetNewRotation();
 
         if (LookAtTarget)
         {
@@ -42,17 +41,5 @@ public class Follow : MonoBehaviour
         var newPositionZ = FollowPositionZ ? targetPosition.z + OffsetZ : position.z + OffsetZ;
 
         return new Vector3(newPositionX, newPositionY, newPositionZ);
-    }
-
-    private Quaternion GetNewRotation()
-    {
-        var rotation = transform.rotation;
-        var targetRotation = Target.transform.rotation;
-
-        var newRotationX = FollowRotationX ? targetRotation.x : rotation.x;
-        var newRotationY = FollowRotationY ? targetRotation.y : rotation.y;
-        var newRotationZ = FollowRotationZ ? targetRotation.z : rotation.z;
-
-        return new Quaternion(newRotationX, newRotationY, newRotationZ, rotation.w);
     }
 }

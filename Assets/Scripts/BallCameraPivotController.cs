@@ -13,7 +13,7 @@ public class BallCameraPivotController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //transform.Rotate(Vector3.up, Input.GetAxis("Mouse X"));
-        transform.Rotate(Vector3.left, Input.GetAxis("Mouse Y"));
+        transform.Rotate(Vector3.up, Input.GetAxis("Mouse X"));
+        //transform.Rotate(Vector3.left, Input.GetAxis("Mouse Y"));
     }
 }

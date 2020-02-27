@@ -11,7 +11,8 @@ public class BallCameraController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.RotateAround(Ball.transform.position, Vector3.up, Input.GetAxis("Horizontal"));
+        //transform.RotateAround(Ball.transform.position, Vector3.up, Input.GetAxis("Mouse X"));
+        transform.RotateAround(Ball.transform.position, Vector3.left, Input.GetAxis("Mouse Y"));
         transform.position = GetNewPosition();
         transform.LookAt(Ball.transform);
     }

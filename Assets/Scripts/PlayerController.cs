@@ -55,8 +55,14 @@ public class PlayerController : MonoBehaviour
         //// we rotate them around Y, assuming your inputs are in X and Z in the myInputs vector
         Vector3 myTurnedInputs = Quaternion.Euler(0, facing, 0) * input;
 
-        Vector3 movement = new Vector3(moveHorizontal, 0.0f, moveVertical);
-        _rb.AddForce(myTurnedInputs * Speed);       
+        var shotBoost = 1.0f;
+
+        if (Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.RightShift))
+        {
+            shotBoost = 150;
+        }
+
+        _rb.AddForce(myTurnedInputs * Speed * shotBoost);       
     }
 
     void OnTriggerEnter(Collider other)
