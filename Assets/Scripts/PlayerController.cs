@@ -15,6 +15,7 @@ public class PlayerController : MonoBehaviour
 
     public Camera[] Cameras;
 
+    public bool IsSlowMotionEnabled = true;
     public float SlowDownMultiplier = 0.2f;
     private float _originalFixedDeltaTime;
     
@@ -27,6 +28,8 @@ public class PlayerController : MonoBehaviour
     {
         _originalFixedDeltaTime = Time.fixedDeltaTime;
         _currentCamera = Cameras[0];
+        _currentCamera.enabled = true;
+        _currentCamera.GetComponent<AudioListener>().enabled = true;
         _rb = GetComponent<Rigidbody>();
         _count = 0;
         SetCountText();
@@ -103,9 +106,16 @@ public class PlayerController : MonoBehaviour
 
     private void UpdateActiveCamera()
     {
-        Cameras.ToList().ForEach(c => c.gameObject.SetActive(false));
+        Cameras.ToList().ForEach(c => {
+            c.enabled = false;
+            c.gameObject.GetComponent<AudioListener>().enabled = false;
+        });
+
         _currentCamera = Cameras[_currentCameraId];
-        _currentCamera.gameObject.SetActive(true);
+        _currentCamera.enabled = true;
+        _currentCamera.gameObject.GetComponent<AudioListener>().enabled = true;
+        Debug.Log("Active camera:");
+        Debug.Log(_currentCamera.name);
     }
 
     private void UpdateCurrentCameraId()
@@ -122,20 +132,25 @@ public class PlayerController : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Ball"))
         {
-            Debug.Log("Collided with ball, slowing down time");
+            EnableSlowMotion();
+            _rb.velocity = new Vector3(_rb.velocity.x / 2, _rb.velocity.y, _rb.velocity.z / 2);
+        }
+    }
+
+    private void EnableSlowMotion()
+    {
+        if (IsSlowMotionEnabled)
+        {
             Invoke(nameof(ResumeNormalTimeScale), 1.5f * SlowDownMultiplier);
             Time.timeScale = SlowDownMultiplier;
-            Time.fixedDeltaTime = Time.fixedDeltaTime * SlowDownMultiplier;
-            _rb.velocity = new Vector3(_rb.velocity.x / 2, _rb.velocity.y, _rb.velocity.z / 2);
-            Debug.Log(Time.timeScale);
+            //Time.fixedDeltaTime = Time.fixedDeltaTime * SlowDownMultiplier;
         }
     }
 
     private void ResumeNormalTimeScale()
     {
-        Debug.Log("Resuming normal game speed");
         Time.timeScale = 1.0f;
-        Time.fixedDeltaTime = _originalFixedDeltaTime;
+        //Time.fixedDeltaTime = _originalFixedDeltaTime;
         Debug.Log(Time.timeScale);
     }
 
