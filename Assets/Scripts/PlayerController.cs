@@ -16,6 +16,7 @@ public class PlayerController : MonoBehaviour
     public Camera[] Cameras;
 
     public float SlowDownMultiplier = 0.2f;
+    private float _originalFixedDeltaTime;
     
     private Camera _currentCamera;
     private int _currentCameraId = 0;
@@ -24,6 +25,7 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
+        _originalFixedDeltaTime = Time.fixedDeltaTime;
         _currentCamera = Cameras[0];
         _rb = GetComponent<Rigidbody>();
         _count = 0;
@@ -33,7 +35,7 @@ public class PlayerController : MonoBehaviour
 
     // TODO: Shift to boost.
     // TODO: Billards where you play as the cue ball.
-    void Update()
+    void FixedUpdate()
     {
         HandleCameraChange();
 
@@ -123,6 +125,7 @@ public class PlayerController : MonoBehaviour
             Debug.Log("Collided with ball, slowing down time");
             Invoke(nameof(ResumeNormalTimeScale), 1.5f * SlowDownMultiplier);
             Time.timeScale = SlowDownMultiplier;
+            Time.fixedDeltaTime = Time.fixedDeltaTime * SlowDownMultiplier;
             _rb.velocity = new Vector3(_rb.velocity.x / 2, _rb.velocity.y, _rb.velocity.z / 2);
             Debug.Log(Time.timeScale);
         }
@@ -132,6 +135,7 @@ public class PlayerController : MonoBehaviour
     {
         Debug.Log("Resuming normal game speed");
         Time.timeScale = 1.0f;
+        Time.fixedDeltaTime = _originalFixedDeltaTime;
         Debug.Log(Time.timeScale);
     }
 
