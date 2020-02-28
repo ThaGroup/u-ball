@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
-    [Range(10,20)]
+    [Range(10,100)]
     public float Speed;
     public float JumpVelocity;
     public float FallMultiplier = 2.5f;
